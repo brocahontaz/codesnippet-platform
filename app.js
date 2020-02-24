@@ -44,10 +44,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
 
-// Set up routes
-app.use('/', require('./routes/homeRouter'))
-app.use('/user', require('./routes/userRouter'))
-
 // Set up sessions
 const sessionOptions = {
   name: 'testcookie',
@@ -70,6 +66,10 @@ app.use((req, res, next) => {
 
   next()
 })
+
+// Set up routes
+app.use('/', require('./routes/homeRouter'))
+app.use('/user', require('./routes/userRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {

@@ -142,3 +142,17 @@ h2 {
 	font-weight: bold;
 	font-size: 0.8rem;
 }
+
+div.flash {
+	font-weight: bold;
+}
+
+div.flash.type-danger {
+	background-color: red;
+	color: #fff;
+}
+
+div.flash.type-success {
+	background-color:green;
+	color: #fff;
+}

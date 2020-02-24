@@ -19,7 +19,7 @@ userController.register = (req, res) => {
 userController.registerPost = async (req, res) => {
   console.log(req.body.username)
   console.log(req.body.email)
-  /* try {
+  try {
     const user = new User({
       username: req.body.username,
       email: req.body.email,
@@ -28,12 +28,12 @@ userController.registerPost = async (req, res) => {
 
     await user.save()
 
-    req.session.flash = { type: 'success', text: 'New account successfully created!' }
-    req.redirect('.')
+    req.session.flash = { type: 'success', text: 'New account successfully created! Please sign in to start using the platform! :)' }
+    res.redirect('./signin')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('.')
-  } */
+    res.redirect('./register')
+  }
 }
 
 module.exports = userController
