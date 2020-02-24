@@ -22,10 +22,15 @@ header {
 	width: 100%;
 	height: 50px;
 	position: relative;
-	background-color: #4ac2ff;
+	background: #4ac2ff;
+	background: -moz-linear-gradient(top, #4ac2ff 0%, #329bd0 100%);
+	background: -webkit-linear-gradient(top, #4ac2ff 0%,#329bd0 100%);
+	background: linear-gradient(to bottom, #4ac2ff 0%,#329bd0 100%);
+	color: #fff;
 	display: flex;
 	align-items: center;
-	padding-left: 0px;
+	padding-left: 10px;
+	box-sizing: border-box;
 }
 
 #headerTitle {
@@ -36,7 +41,13 @@ header {
 }
 
 header div {
+	margin-left: 10px;
+	margin-right: 10px;
+}
 
+main {
+	box-sizing: border-box;
+	padding: 20px;
 }
 
 footer {
@@ -44,10 +55,15 @@ footer {
 	left: 0;
 	bottom: 0;
 	background: #383838;
+	color: #fff;
 	background: -moz-linear-gradient(top, #383838 0%, #2d2d2d 100%);
 	background: -webkit-linear-gradient(top, #383838 0%,#2d2d2d 100%);
 	background: linear-gradient(to bottom, #383838 0%,#2d2d2d 100%);
 	width: 100%;
-	min-height: 160px;
-	border-bottom: 10px solid #000;
+	height: 30px;
+	padding-left: 20px;
+	display: flex;
+	align-items: center;
+	/*border-bottom: 10px solid #000;*/
+	box-sizing: border-box;
 }
