@@ -33,6 +33,32 @@ header {
 	box-sizing: border-box;
 }
 
+header a:link 
+{
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:visited 
+{
+	
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:hover 
+{
+	
+	color: #FFF;
+	text-decoration: none;
+}
+
+header a:active 
+{
+	color: #FFF;
+	text-decoration: none;
+}
+
 #headerTitle {
 	color: #fff;
 	font-size: 1.0rem;
@@ -43,6 +69,38 @@ header {
 header div {
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+nav {
+	margin-left: 10px;
+	margin-right: 10px;
+
+}
+
+nav a:link 
+{
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:visited 
+{
+	
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:hover 
+{
+	
+	color: #FFF;
+	text-decoration: underline;
+}
+
+nav a:active 
+{
+	color: #FFF;
+	text-decoration: underline;
 }
 
 main {

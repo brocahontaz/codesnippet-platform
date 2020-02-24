@@ -6,12 +6,23 @@
 
 'use strict'
 
+require('dotenv').config()
+
+// const createError = require('http-errors')
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
 // const logger = require('morgan')
 
+const mongoose = require('./configs/mongoose')
+
 const app = express()
+
+// Connect to the database
+mongoose.connect().catch(error => {
+  console.error(error)
+  process.exit(1)
+})
 
 // Set view engine
 app.set('view engine', 'hbs')
