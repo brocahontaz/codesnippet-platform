@@ -18,11 +18,15 @@ app.set('view engine', 'hbs')
 
 // Configure view engine
 app.engine('hbs', hbs.express4({
-  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default')
+  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default'),
+  partialsDir: path.join(__dirname, 'views', 'partials')
 }))
 
 // Configure views path
 app.set('views', path.join(__dirname, 'views'))
+
+// Set up static path
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
