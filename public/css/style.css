@@ -111,12 +111,17 @@ main {
 	align-items: flex-start;
 	justify-content: flex-start;
 	flex-wrap: wrap;
+	padding-bottom: 40px;
 }
 
 main div {
+	width:400px;
 	padding: 20px;
 	background-color: #fff;
 	margin: 10px;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 0;
 }
 
 footer {
@@ -137,7 +142,7 @@ footer {
 	box-sizing: border-box;
 }
 
-h2 {
+h2,h3 {
 	margin: 0px;
 	font-weight: bold;
 	font-size: 0.8rem;
@@ -145,6 +150,8 @@ h2 {
 
 div.flash {
 	font-weight: bold;
+	max-width: fit-content;
+	min-width: 400px;
 }
 
 div.flash.type-danger {
@@ -155,4 +162,47 @@ div.flash.type-danger {
 div.flash.type-success {
 	background-color:green;
 	color: #fff;
+}
+
+div.codesnippet {
+	min-width: 400px;
+	/*max-width: 800px;*/
+}
+/*
+div.codesnippet:hover,div.codesnippet:focus {
+	width: min-content;
+	max-width: 800px;
+
+}*/
+
+div.codesnippet pre {
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+	overflow: hidden;
+	text-overflow: ellipsis;
+    padding: 0.5rem 0.5rem;
+	/*height: 2.4rem;*/
+	max-height: 3.6rem;
+}
+/*
+div.codesnippet pre:hover,pre:focus {
+	width: min-content;
+	max-width: 800px;
+}*/
+
+div.codesnippet .metadata {
+	width: 100%;
+	height: 0;
+	font-size: 0.6rem;
+	background-color: red;
+	padding: 0;
+	text-align: right;
+}
+
+div.info {
+	min-width:400px;
+	max-width:fit-content;
+	line-height:1.0rem;
 }
