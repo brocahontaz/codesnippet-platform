@@ -30,8 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
-
 app.use('/signin', require('./routes/signRouter'))
+app.use('/register', require('./routes/registerRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
