@@ -12,6 +12,7 @@ require('dotenv').config()
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
+const session = require('express-session')
 // const logger = require('morgan')
 
 const mongoose = require('./configs/mongoose')
@@ -36,6 +37,9 @@ app.engine('hbs', hbs.express4({
 // Configure views path
 app.set('views', path.join(__dirname, 'views'))
 
+// Set up body usage
+app.use(express.urlencoded({ extended: false }))
+
 // Set up static path
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
@@ -43,6 +47,29 @@ app.use('/user', express.static(path.join(__dirname, 'public')))
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/user', require('./routes/userRouter'))
+
+// Set up sessions
+const sessionOptions = {
+  name: 'testcookie',
+  secret: 'testsecret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}
+
+app.use(session(sessionOptions))
+
+// Set up flash messages
+app.use((req, res, next) => {
+  if (req.session.flash) {
+    res.locals.flash = req.session.flash
+    delete req.session.flash
+  }
+
+  next()
+})
 
 // Catch file not found
 app.use('*', (req, res, next) => {
