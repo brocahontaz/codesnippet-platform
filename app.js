@@ -7,7 +7,7 @@
 'use strict'
 
 const express = require('express')
-const hbs = require('express-handlebars')
+const hbs = require('express-hbs')
 const path = require('path')
 const logger = require('morgan')
 
@@ -18,7 +18,7 @@ app.set('view engine', 'hbs')
 
 // Configure view engine
 app.engine('hbs', hbs.express4({
-  defaultLayout: path.join(__dirname, 'views', 'layouts,', 'default')
+  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default')
 }))
 
 // Configure views path
