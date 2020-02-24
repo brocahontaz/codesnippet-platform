@@ -47,7 +47,18 @@ header div {
 
 main {
 	box-sizing: border-box;
+	padding: 10px;
+	font-size: 0.8rem;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+main div {
 	padding: 20px;
+	background-color: #fff;
+	margin: 10px;
 }
 
 footer {
@@ -66,4 +77,10 @@ footer {
 	align-items: center;
 	/*border-bottom: 10px solid #000;*/
 	box-sizing: border-box;
+}
+
+h2 {
+	margin: 0px;
+	font-weight: bold;
+	font-size: 0.8rem;
 }

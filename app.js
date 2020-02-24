@@ -9,7 +9,7 @@
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
-const logger = require('morgan')
+// const logger = require('morgan')
 
 const app = express()
 
@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
+
+app.use('/signin', require('./routes/signRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
