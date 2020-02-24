@@ -37,12 +37,12 @@ app.engine('hbs', hbs.express4({
 app.set('views', path.join(__dirname, 'views'))
 
 // Set up static path
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname, 'public')))
+app.use('/user', express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
-app.use('/signin', require('./routes/signRouter'))
-app.use('/register', require('./routes/registerRouter'))
+app.use('/user', require('./routes/userRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
