@@ -22,7 +22,8 @@
     "eslint-plugin-jsdoc": "^21.0.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.2"
   },
   "eslintConfig": {
     "extends": "@lnu"
@@ -31,6 +32,8 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
-    "mongoose": "^5.9.2"
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.2",
+    "morgan": "^1.9.1"
   }
 }
