@@ -13,9 +13,19 @@ const logger = require('morgan')
 
 const app = express()
 
-// Set up view engine
+// Set view engine
+app.set('view engine', 'hbs')
+
+// Configure view engine
 app.engine('hbs', hbs.express4({
   defaultLayout: path.join(__dirname, 'views', 'layouts,', 'default')
 }))
-app.set('view engine', 'hbs')
+
+// Configure views path
 app.set('views', path.join(__dirname, 'views'))
+
+// Set up routes
+app.use('/', require('./routes/homeRouter'))
+
+// Test
+app.listen(8000, () => console.log('Testing server at http://localhost:8000'))
