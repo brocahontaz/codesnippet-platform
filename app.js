@@ -27,5 +27,17 @@ app.set('views', path.join(__dirname, 'views'))
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
 
+// Catch file not found
+app.use('*', (req, res, next) => {
+  res.status(404)
+  res.sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
+})
+
+// Handle errors
+app.use((err, req, res, next) => {
+  res.status(err.status || 500)
+  res.send(err.message || 'Internal server error')
+})
+
 // Test
 app.listen(8000, () => console.log('Testing server at http://localhost:8000'))
