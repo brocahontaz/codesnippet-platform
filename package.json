@@ -34,6 +34,7 @@
     "express": "^4.17.1",
     "express-hbs": "^2.3.0",
     "express-session": "^1.17.0",
+    "express-validator": "^6.4.0",
     "moment": "^2.24.0",
     "mongoose": "^5.9.2",
     "morgan": "^1.9.1"

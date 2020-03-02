@@ -8,6 +8,7 @@ const controller = require('../controllers/userController')
 router.get('/', controller.index)
 
 router.get('/signin', controller.signin)
+router.post('/signin', controller.signinPost)
 
 router.get('/register', controller.register)
 router.post('/register', controller.registerPost)

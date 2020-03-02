@@ -12,6 +12,12 @@ userController.signin = (req, res) => {
   res.render('user/signin')
 }
 
+userController.signinPost = async (req, res) => {
+  console.log(req.body.email)
+  console.log(req.body.password)
+  res.redirect('./signin')
+}
+
 userController.register = (req, res) => {
   res.render('user/register')
 }

@@ -1,8 +1,8 @@
 <div class="info">
     <h2>Please use the following form to sign in</h2>
-    <form>
-        <input type="text" placeholder="Email"><br>
-        <input type="password" placeholder="Password"><br>
+    <form method="post" action="/user/signin">
+        <input type="text" name="email" id="email" placeholder="Email"><br>
+        <input type="password" name="password" id="password" placeholder="Password"><br>
         <input type="submit" value="Sign in">
 
     </form>

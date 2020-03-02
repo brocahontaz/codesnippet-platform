@@ -46,12 +46,14 @@ app.use('/user', express.static(path.join(__dirname, 'public')))
 
 // Set up sessions
 const sessionOptions = {
-  name: 'testcookie',
-  secret: 'testsecret',
+  name: process.env.SESSION_NAME,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+    sameSite: 'lax'
   }
 }
 
