@@ -22,6 +22,38 @@ const app = express()
 // Set up logger 
 app.use(logger('dev'))
 
+// Set up sessions
+const sessionOptions = {
+  name: process.env.SESSION_NAME,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+    sameSite: 'lax'
+  }
+}
+
+app.use(session(sessionOptions))
+
+// Set up flash messages
+app.use((req, res, next) => {
+  if (req.session.flash) {
+    res.locals.flash = req.session.flash
+    delete req.session.flash
+  }
+  next()
+})
+
+app.use((req, res, next) => {
+  if (req.session.data) {
+    res.locals.data = req.session.data
+    delete req.session.data
+  }
+  next()
+})
+
 // Connect to the database
 mongoose.connect().catch(error => {
   console.error(error)
@@ -48,30 +80,7 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
 app.use('/snippet', express.static(path.join(__dirname, 'public')))
 
-// Set up sessions
-const sessionOptions = {
-  name: process.env.SESSION_NAME,
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24,
-    httpOnly: true,
-    sameSite: 'lax'
-  }
-}
 
-app.use(session(sessionOptions))
-
-// Set up flash messages
-app.use((req, res, next) => {
-  if (req.session.flash) {
-    res.locals.flash = req.session.flash
-    delete req.session.flash
-  }
-
-  next()
-})
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))

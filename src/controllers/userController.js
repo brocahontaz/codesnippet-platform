@@ -9,7 +9,6 @@ userController.index = (req, res) => {
 }
 
 userController.signin = (req, res) => {
-  console.log('test')
   res.render('user/signin')
 }
 
@@ -17,7 +16,13 @@ userController.signinPost = async (req, res) => {
   console.log('test2')
   console.log(req.body.email)
   console.log(req.body.password)
-  res.redirect('/')
+  try {
+    const user = await User.authenticate(req.body.email, req.body.password)
+  } catch (err) {
+    req.session.data = { form: {email: req.body.email} }
+    req.session.flash = { type: 'danger', text: err.message }
+    res.redirect('./signin')
+  }
 }
 
 userController.register = (req, res) => {
@@ -25,22 +30,29 @@ userController.register = (req, res) => {
 }
 
 userController.registerPost = async (req, res) => {
-  console.log(req.body.username)
-  console.log(req.body.email)
-  try {
-    const user = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    })
 
-    await user.save()
+  if (req.body.password === req.body.password2) {
+    try {
+      const user = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      })
 
-    req.session.flash = { type: 'success', text: 'New account successfully created! Please sign in to start using the platform! :)' }
-    res.redirect('./signin')
-  } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.render('user/register')
+      await user.save()
+
+      req.session.flash = { type: 'success', text: 'New account successfully created! Please sign in to start using the platform! :)' }
+      res.redirect('./signin')
+    } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message }
+      req.session.data = { form: {username: req.body.username, email: req.body.email} }
+      res.redirect('./register')
+    }
+  } else {
+    req.session.data = { form: {username: req.body.username, email: req.body.email} }
+    req.session.flash = { type: 'danger', text: 'Passwords does not match!' }
+    res.redirect('./register')
+    //res.render('user/register')
   }
 }
 
