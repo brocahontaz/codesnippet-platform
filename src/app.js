@@ -31,7 +31,8 @@ const sessionOptions = {
   cookie: {
     maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
-    sameSite: 'lax'
+    sameSite: 'lax',
+    secure: false
   }
 }
 
@@ -41,6 +42,7 @@ app.use(session(sessionOptions))
 app.use((req, res, next) => {
   if (req.session.flash) {
     res.locals.flash = req.session.flash
+    //console.log(req.session.user)
     delete req.session.flash
   }
   next()
@@ -48,9 +50,27 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   if (req.session.data) {
+    console.log(req.session.id)
+    //console.log(req.session)
+    //console.log(req.session.data)
     res.locals.data = req.session.data
     delete req.session.data
   }
+  app.locals.email = req.session.email
+  app.locals.user = req.session.user
+  app.locals.loggedIn = req.session.loggedIn
+  next()
+})
+
+app.use((req, res, next) => {
+  //console.log('rrrr', req)
+  //console.log(req.session)
+  //console.log('inloggad')
+  app.locals.email = req.session.email
+  app.locals.user = req.session.user
+  app.locals.loggedIn = req.session.loggedIn
+  //console.log('logged',req.session.loggedIn)
+  //console.log('user', req.session.user)
   next()
 })
 
@@ -79,8 +99,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
 app.use('/snippet', express.static(path.join(__dirname, 'public')))
-
-
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))

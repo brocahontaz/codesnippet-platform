@@ -5,19 +5,38 @@ const User = require('../models/user')
 const userController = {}
 
 userController.index = (req, res) => {
+
   res.render('user/index')
 }
 
 userController.signin = (req, res) => {
-  res.render('user/signin')
+  if(req.session.user) {
+    res.redirect('..')
+  } else {
+    res.render('user/signin')
+  }
 }
 
 userController.signinPost = async (req, res) => {
-  console.log('test2')
-  console.log(req.body.email)
-  console.log(req.body.password)
+  //console.log('test2')
+  //console.log(req.body.email)
+  //console.log(req.body.password)
   try {
     const user = await User.authenticate(req.body.email, req.body.password)
+    //console.log('auth', user)
+
+    req.session.regenerate(function(err) {
+      req.session.user = user.username
+      req.session.email = user.email
+      req.session.loggedIn = true
+      req.session.flash = { type: 'success', text: 'Welcome ' + user.username + '!' }
+      res.redirect('/')
+      console.log(req.session)
+      console.log('REGEN', req.session.user)
+    })
+
+    
+    
   } catch (err) {
     req.session.data = { form: {email: req.body.email} }
     req.session.flash = { type: 'danger', text: err.message }
@@ -26,7 +45,11 @@ userController.signinPost = async (req, res) => {
 }
 
 userController.register = (req, res) => {
-  res.render('user/register')
+  if(req.session.user) {
+    res.redirect('..')
+  } else {
+    res.render('user/register')
+  }
 }
 
 userController.registerPost = async (req, res) => {
@@ -54,6 +77,21 @@ userController.registerPost = async (req, res) => {
     res.redirect('./register')
     //res.render('user/register')
   }
+}
+
+userController.logout = (req, res) => {
+  req.session.destroy(err => {
+    res.redirect('..')
+  })
+}
+
+userController.showUser = (req, res) => {
+  console.log(req.params)
+  const viewData = {
+    user: req.params.user,
+    email: req.params.email
+  }
+  res.render('user/index', viewData)
 }
 
 module.exports = userController

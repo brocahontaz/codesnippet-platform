@@ -2,5 +2,11 @@
     <div id="headerTitle">
         <a href="/">ja222um code snippet platform</a>
     </div>
-    <nav><a href="/user/signin">sign in / register</a></nav>
+    <nav>
+        {{#if loggedIn}}
+            {{> userMenu }}
+        {{else}}
+            {{> loginMenu}}
+        {{/if}}
+    </nav>
 </header>

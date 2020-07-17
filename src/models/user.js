@@ -48,39 +48,20 @@ UserSchema.pre('save', async function(next){
     return  next(err)
   }
 })
-/*
-  bcrypt.genSalt(saltRounds, function(err, salt) {
-    if (err) {
-      return next()
-    }
-
-    bcrypt.hash(user.password, salt, function(err, hash) {
-
-      if (err) {
-        return next()
-      }
-
-      user.password = hash
-      next()
-    })
-  })
-})
-*/
 
 UserSchema.statics.authenticate = async function(email, password) {
-  console.log(email, password)
+  //console.log(email, password)
 
   try {
     const user = await this.findOne({email: email })
+    //console.log(user)
     if (!user || !await bcrypt.compare(password, user.password)) {
       throw new Error('Invalid credentials, please try again.')
     }
+    return user
   } catch (err) {
     throw err
   }
-  
-  
-  return user
 }
 
 const User = mongoose.model('User', UserSchema)

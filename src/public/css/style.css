@@ -72,9 +72,14 @@ header div {
 }
 
 nav {
+	font-size: 0.9rem;
 	margin-left: 10px;
-	margin-right: 10px;
+	/*margin-right: 10px;*/
+	display: flex;
+}
 
+nav div {
+	margin: 0;
 }
 
 nav a:link 
@@ -101,6 +106,10 @@ nav a:active
 {
 	color: #FFF;
 	text-decoration: underline;
+}
+
+nav a.user {
+	font-weight: 800;
 }
 
 main {
