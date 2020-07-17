@@ -1,0 +1,6 @@
+{
+    "standard.enable": false,
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "docthis.includeAuthorTag": true
+}

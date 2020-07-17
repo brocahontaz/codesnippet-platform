@@ -13,11 +13,14 @@ const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
 const session = require('express-session')
-// const logger = require('morgan')
+const logger = require('morgan')
 
 const mongoose = require('./configs/mongoose')
 
 const app = express()
+
+// Set up logger 
+app.use(logger('dev'))
 
 // Connect to the database
 mongoose.connect().catch(error => {
@@ -43,6 +46,7 @@ app.use(express.urlencoded({ extended: false }))
 // Set up static path
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
+app.use('/snippet', express.static(path.join(__dirname, 'public')))
 
 // Set up sessions
 const sessionOptions = {
@@ -72,6 +76,7 @@ app.use((req, res, next) => {
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/user', require('./routes/userRouter'))
+//app.use('/snippet', require('./routes/snippetRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
@@ -84,6 +89,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.send(err.message || 'Internal server error')
 })
+
+
 
 // Test
 app.listen(8000, () => console.log('Testing server at http://localhost:8000'))

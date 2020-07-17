@@ -1,6 +1,6 @@
 'use strict'
 
-const User = require('../models/User')
+const User = require('../models/user')
 
 const userController = {}
 
@@ -9,13 +9,15 @@ userController.index = (req, res) => {
 }
 
 userController.signin = (req, res) => {
+  console.log('test')
   res.render('user/signin')
 }
 
 userController.signinPost = async (req, res) => {
+  console.log('test2')
   console.log(req.body.email)
   console.log(req.body.password)
-  res.redirect('./signin')
+  res.redirect('/')
 }
 
 userController.register = (req, res) => {
@@ -38,7 +40,7 @@ userController.registerPost = async (req, res) => {
     res.redirect('./signin')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('./register')
+    res.render('user/register')
   }
 }
 

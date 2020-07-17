@@ -1,9 +1,11 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const saltRounds = 10
 
 // Create the schema
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -28,6 +30,30 @@ const userSchema = new mongoose.Schema({
   versionKey: false
 })
 
-const User = mongoose.model('User', userSchema)
+UserSchema.pre('save', function(next){
+  const user = this
+
+  if(!user.isModified('password')) {
+    return next()
+  }
+
+  bcrypt.genSalt(saltRounds, function(err, salt) {
+    if (err) {
+      return next()
+    }
+
+    bcrypt.hash(user.password, salt, function(err, hash) {
+
+      if (err) {
+        return next()
+      }
+
+      user.password = hash
+      next()
+    })
+  })
+})
+
+const User = mongoose.model('User', UserSchema)
 
 module.exports = User
