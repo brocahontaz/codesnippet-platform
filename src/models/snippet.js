@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const snippetSchema = new mongoose.Schema({
+const SnippetSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -19,12 +19,17 @@ const snippetSchema = new mongoose.Schema({
   },
   snippet: {
     type: String,
-    required: true
+    required: true,
+    minlength: [1, 'Snippet cannot be empty!']
   }
 }, {
   timestamps: true
 })
 
-const Snippet = mongoose.model('Snippet', snippetSchema)
+SnippetSchema.statics.getAllByName = function(username) {
+  return this.find({username})
+}
+
+const Snippet = mongoose.model('Snippet', SnippetSchema)
 
 module.exports = Snippet

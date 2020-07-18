@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('../models/user')
+const Snippet = require('../models/snippet')
 
 const userController = {}
 
@@ -91,6 +92,7 @@ userController.showUser = (req, res) => {
     user: req.params.user,
     email: req.params.email
   }
+  const snippets = Snippet.getAllByName(req.params.user)
   res.render('user/index', viewData)
 }
 
