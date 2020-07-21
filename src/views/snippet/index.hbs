@@ -1,0 +1,22 @@
+<div class="main snippet">
+    <div class="snippetHeader">
+        <div class="snippetMeta">
+            <div class="snippetMetaHeader">
+                <span class="snippetName">{{snippet.name}}</span>
+                <span class="snippetAuthor">Author: <a href="/user/{{snippet.username}}">{{snippet.username}}</a></span>
+            </div>
+            <span class="snippetCreatedAt">Created: {{formatDate snippet.createdAt "long"}}</span>
+            <span class="snippetUpdatedAt">Last edited: {{formatDate snippet.updatedAt "long"}}</span>
+        </div>
+        {{#ifEquals snippet.username user}}
+        <div class="snippetMenu">
+            <button id="editSnippet" class="snippetMenuButton edit">Edit</button>
+            <button id="deleteSnippet" class="snippetMenuButton delete">Delete</button>
+        </div>
+        {{/ifEquals}}
+    </div>
+    <pre>
+<code>{{snippet.snippet ~}}
+        </code>
+    </pre>
+</div>

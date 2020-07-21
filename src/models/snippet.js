@@ -13,10 +13,6 @@ const SnippetSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  date: {
-    type: Date,
-    required: true
-  },
   snippet: {
     type: String,
     required: true,
@@ -26,8 +22,15 @@ const SnippetSchema = new mongoose.Schema({
   timestamps: true
 })
 
-SnippetSchema.statics.getAllByName = function(username) {
-  return this.find({username})
+SnippetSchema.statics.getAllByName = async function(username) {
+  //console.log(await this.find({username: username}, null))
+  return await this.find({username}, null)
+}
+
+SnippetSchema.statics.getSnippet = async function(id) {
+  console.log('id', id)
+  //mongoose.Types.ObjectId.fromString(id)
+  return await this.findById(mongoose.Types.ObjectId(id), null)
 }
 
 const Snippet = mongoose.model('Snippet', SnippetSchema)

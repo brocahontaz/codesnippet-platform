@@ -14,10 +14,29 @@ const hbs = require('express-hbs')
 const path = require('path')
 const session = require('express-session')
 const logger = require('morgan')
+const moment = require('moment')
 
 const mongoose = require('./configs/mongoose')
 
+const DateFormats = {
+  short: 'MMM Do YY',
+  long: 'MMMM Do YYYY, HH:mm:ss'
+}
+
 const app = express()
+
+hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
+hbs.registerHelper('formatDate', function(datetime, format) {
+  if (moment) {
+    format = DateFormats[format] || format
+    return moment(datetime).format(format)
+  } else {
+    return datetime
+  }
+})
 
 // Set up logger 
 app.use(logger('dev'))
@@ -103,7 +122,7 @@ app.use('/snippet', express.static(path.join(__dirname, 'public')))
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/user', require('./routes/userRouter'))
-//app.use('/snippet', require('./routes/snippetRouter'))
+app.use('/snippet', require('./routes/snippetRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {

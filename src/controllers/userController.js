@@ -86,13 +86,17 @@ userController.logout = (req, res) => {
   })
 }
 
-userController.showUser = (req, res) => {
-  console.log(req.params)
+userController.showUser = async (req, res) => {
+  //console.log(req.params)
+  const snippets = await Snippet.getAllByName(req.params.user)
+
+  console.log(snippets)
   const viewData = {
     user: req.params.user,
-    email: req.params.email
+    email: req.params.email,
+    snippets: snippets
   }
-  const snippets = Snippet.getAllByName(req.params.user)
+  
   res.render('user/index', viewData)
 }
 
