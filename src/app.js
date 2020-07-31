@@ -119,11 +119,13 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
 app.use('/snippet', express.static(path.join(__dirname, 'public')))
+app.use('/tag', express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/user', require('./routes/userRouter'))
 app.use('/snippet', require('./routes/snippetRouter'))
+app.use('/tag', require('./routes/tagRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {

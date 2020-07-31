@@ -17,13 +17,17 @@ const SnippetSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [1, 'Snippet cannot be empty!']
+  },
+  tags: {
+    type: Array,
+    required: false
   }
 }, {
   timestamps: true
 })
 
 SnippetSchema.statics.getAllByName = async function (username) {
-  return await this.find({ username }, null)
+  return await this.find({ username }, null).sort({ createdAt: 'descending' })
 }
 
 SnippetSchema.statics.getSnippet = async function (id) {
@@ -33,7 +37,7 @@ SnippetSchema.statics.getSnippet = async function (id) {
 }
 
 SnippetSchema.statics.getAll = async function () {
-  return await this.find()
+  return await this.find().sort({ createdAt: 'descending' })
 }
 
 const Snippet = mongoose.model('Snippet', SnippetSchema)

@@ -5,8 +5,6 @@
                 <span class="snippetName">{{snippet.name}}</span>
                 <span class="snippetAuthor">Author: <a href="/user/{{snippet.username}}">{{snippet.username}}</a></span>
             </div>
-            <span class="snippetCreatedAt">Created: {{formatDate snippet.createdAt "long"}}</span>
-            <span class="snippetUpdatedAt">Last edited: {{formatDate snippet.updatedAt "long"}}</span>
         </div>
         {{#ifEquals snippet.username user}}
         <div class="snippetMenu">
@@ -15,8 +13,17 @@
         </div>
         {{/ifEquals}}
     </div>
+    <div class="snippetTags">
+        {{#each snippet.tags}}
+            <a href="/tags/{{this}}" class="tag">{{this}}</a>
+        {{/each}}
+    </div>
     <pre>
 <code>{{snippet.snippet ~}}
         </code>
     </pre>
+    <div class="snippetMetaFooter">
+        <span class="snippetCreatedAt">Created: {{formatDate snippet.createdAt "long"}}</span>
+        <span class="snippetUpdatedAt">Last edited: {{formatDate snippet.updatedAt "long"}}</span>
+    </div>  
 </div>
