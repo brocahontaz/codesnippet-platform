@@ -1,6 +1,13 @@
 {
     "standard.enable": false,
+    "standard.autoFixOnSave": false,
+    "docthis.includeAuthorTag": true,
+    "eslint.enable": true,
     "eslint.alwaysShowStatus": true,
     "eslint.format.enable": true,
-    "docthis.includeAuthorTag": true
+    "eslint.lintTask.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript"]
 }

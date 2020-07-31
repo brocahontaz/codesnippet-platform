@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     minlength: 1,
-    validate: {validator: validator.isEmail, msg: 'Email must be valid.'}
+    validate: { validator: validator.isEmail, msg: 'Email must be valid.' }
   },
   password: {
     type: String,
@@ -32,10 +32,10 @@ const UserSchema = new mongoose.Schema({
   versionKey: false
 })
 
-UserSchema.pre('save', async function(next){
+UserSchema.pre('save', async function (next) {
   const user = this
 
-  if(!user.isModified('password')) {
+  if (!user.isModified('password')) {
     return next()
   }
 
@@ -44,24 +44,20 @@ UserSchema.pre('save', async function(next){
     const hash = await bcrypt.hash(user.password, salt)
     user.password = hash
     return next()
-  } catch(err) {
-    return  next(err)
+  } catch (err) {
+    return next(err)
   }
 })
 
-UserSchema.statics.authenticate = async function(email, password) {
-  //console.log(email, password)
+UserSchema.statics.authenticate = async function (email, password) {
+  // console.log(email, password)
 
-  try {
-    const user = await this.findOne({email: email })
-    //console.log(user)
-    if (!user || !await bcrypt.compare(password, user.password)) {
-      throw new Error('Invalid credentials, please try again.')
-    }
-    return user
-  } catch (err) {
-    throw err
+  const user = await this.findOne({ email: email })
+  // console.log(user)
+  if (!user || !await bcrypt.compare(password, user.password)) {
+    throw new Error('Invalid credentials, please try again.')
   }
+  return user
 }
 
 const User = mongoose.model('User', UserSchema)

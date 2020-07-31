@@ -1,6 +1,5 @@
 'use strict'
 
-const User = require('../models/user')
 const Snippet = require('../models/snippet')
 
 const snippetController = {}
@@ -10,7 +9,7 @@ snippetController.index = (req, res) => {
 }
 
 snippetController.new = (req, res) => {
-  if (req.session.user) { 
+  if (req.session.user) {
     res.render('snippet/new')
   } else {
     res.redirect('/')
@@ -31,7 +30,7 @@ snippetController.createNew = async (req, res) => {
     res.redirect('/snippet/' + snip.id)
   } catch (err) {
     req.session.flash = { type: 'danger', text: err.message }
-    req.session.data = { form: {snippet: req.body.snippet} }
+    req.session.data = { form: { snippet: req.body.snippet } }
     res.redirect('./new')
   }
 }
@@ -39,7 +38,7 @@ snippetController.createNew = async (req, res) => {
 snippetController.showSnippet = async (req, res) => {
   console.log(req.params.snippet)
   const snippet = await Snippet.getSnippet(req.params.snippet)
-  console.log('SNIP',snippet)
+  console.log('SNIP', snippet)
   const viewData = {
     snippet: snippet
   }

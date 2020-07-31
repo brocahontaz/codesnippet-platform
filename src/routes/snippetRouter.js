@@ -12,5 +12,4 @@ router.post('/new', controller.createNew)
 
 router.get('/:snippet', controller.showSnippet)
 
-
 module.exports = router

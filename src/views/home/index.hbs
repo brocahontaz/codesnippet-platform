@@ -5,4 +5,9 @@ Start by registering an account by using the menu above.<br>
 Or sign in if you already have an account.
 </div>
 {{/unless}}
-
+{{#each snippets}}
+<div class="main snippetPreview">
+    {{this.name}}
+    {{this.snippet}}
+</div>
+{{/each}}

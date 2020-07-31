@@ -25,11 +25,11 @@ const DateFormats = {
 
 const app = express()
 
-hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
-  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-});
+hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
+  return (arg1 === arg2) ? options.fn(this) : options.inverse(this)
+})
 
-hbs.registerHelper('formatDate', function(datetime, format) {
+hbs.registerHelper('formatDate', function (datetime, format) {
   if (moment) {
     format = DateFormats[format] || format
     return moment(datetime).format(format)
@@ -38,7 +38,7 @@ hbs.registerHelper('formatDate', function(datetime, format) {
   }
 })
 
-// Set up logger 
+// Set up logger
 app.use(logger('dev'))
 
 // Set up sessions
@@ -61,7 +61,7 @@ app.use(session(sessionOptions))
 app.use((req, res, next) => {
   if (req.session.flash) {
     res.locals.flash = req.session.flash
-    //console.log(req.session.user)
+    // console.log(req.session.user)
     delete req.session.flash
   }
   next()
@@ -70,8 +70,8 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   if (req.session.data) {
     console.log(req.session.id)
-    //console.log(req.session)
-    //console.log(req.session.data)
+    // console.log(req.session)
+    // console.log(req.session.data)
     res.locals.data = req.session.data
     delete req.session.data
   }
@@ -82,14 +82,14 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-  //console.log('rrrr', req)
-  //console.log(req.session)
-  //console.log('inloggad')
+  // console.log('rrrr', req)
+  // console.log(req.session)
+  // console.log('inloggad')
   app.locals.email = req.session.email
   app.locals.user = req.session.user
   app.locals.loggedIn = req.session.loggedIn
-  //console.log('logged',req.session.loggedIn)
-  //console.log('user', req.session.user)
+  // console.log('logged',req.session.loggedIn)
+  // console.log('user', req.session.user)
   next()
 })
 
@@ -135,8 +135,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.send(err.message || 'Internal server error')
 })
-
-
 
 // Test
 app.listen(8000, () => console.log('Testing server at http://localhost:8000'))

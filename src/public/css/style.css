@@ -114,7 +114,7 @@ nav a.user {
 
 main {
 	box-sizing: border-box;
-	padding: 10px;
+	/*padding: 10px;*/
 	font-size: 0.8rem;
 	display: flex;
 	align-items: flex-start;
@@ -135,10 +135,10 @@ main div {
 
 main div.main {
 	box-sizing: border-box;
-	width:400px;
+	width: 400px;
 	padding: 20px;
 	background-color: #fff;
-	/*margin: 10px;*/
+	margin: 10px;
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: 0;
@@ -146,7 +146,7 @@ main div.main {
 
 main div.main.info {
 	min-width:400px;
-	max-width:fit-content;
+	max-width: fit-content;
 	line-height:1.0rem;
 }
 
@@ -208,7 +208,7 @@ div.flash.type-success {
 	background-color:green;	
 }
 
-div.codesnippet {
+main div.main.snippetPreview {
 	min-width: 400px;
 	max-width: 800px;
 }
@@ -218,7 +218,7 @@ div.codesnippet:hover,div.codesnippet:focus {
 	max-width: 800px;
 }*/
 
-div.codesnippet pre {
+main div.codesnippet pre {
     border-left: 3px solid #f36d33;
     color: #666;
     page-break-inside: avoid;
@@ -228,6 +228,7 @@ div.codesnippet pre {
     padding: 0.5rem 0.5rem;
 	/*height: 2.4rem;*/
 	max-height: 3.6rem;
+	overflow: auto;
 }
 /*
 div.codesnippet pre:hover,pre:focus {
