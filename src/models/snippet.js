@@ -40,6 +40,10 @@ SnippetSchema.statics.getAll = async function () {
   return await this.find().sort({ createdAt: 'descending' })
 }
 
+SnippetSchema.statics.getAllByTag = async function (tag) {
+  return await this.find({ tags: tag }, null).sort({ createdAt: 'descending' })
+}
+
 const Snippet = mongoose.model('Snippet', SnippetSchema)
 
 module.exports = Snippet

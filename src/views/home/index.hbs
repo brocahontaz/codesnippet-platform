@@ -9,16 +9,18 @@ Or sign in if you already have an account.
 <div class="main snippetPreview">
     <div class="header">
         <div class="name">
-            <a href="/snippet/{{this.id}}">{{this.name}}</a>
+            <a href="/snippet/{{this.id}}" class="snippetLink">{{this.name}}</a>
         </div>
     </div>
-    <pre>
-        <code>
-            {{this.snippet}}
-        </code>
-    </pre>
+<pre><code>{{this.snippet}}</code></pre>
+    
     <div class="meta">
-        Hacked by <a href="/user/{{this.username}}">{{this.username}}</a> on {{formatDate this.createdAt "long"}}
+        <div class="snippetTags preview">
+            {{#each this.tags}}
+                <a href="/tag/{{this}}" class="tag">{{this}}</a>
+            {{/each}}
+        </div>
+        Hacked by <a href="/user/{{this.username}}" class="authorLink">{{this.username}}</a> on {{formatDate this.createdAt "long"}}
     </div>
 </div>
 {{/each}}

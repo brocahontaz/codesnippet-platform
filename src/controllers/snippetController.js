@@ -22,7 +22,7 @@ snippetController.createNew = async (req, res) => {
       username: req.body.username,
       name: req.body.name,
       snippet: req.body.snippet,
-      tags: req.body.tags.split(',')
+      tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase() })
     })
 
     const snip = await snippet.save()
