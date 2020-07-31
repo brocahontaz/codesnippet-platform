@@ -1,8 +1,22 @@
-{{user}}
-{{#each snippets}}
-<div>
-    {{this.name}}
-    {{this.snippet}}
+{{#unless loggedIn}}
+<div class="main info">
+<h2>{{user}}</h2>
 </div>
-    
+{{/unless}}
+{{#each snippets}}
+<div class="main snippetPreview">
+    <div class="header">
+        <div class="name">
+            <a href="/snippet/{{this.id}}">{{this.name}}</a>
+        </div>
+    </div>
+    <pre>
+        <code>
+            {{this.snippet}}
+        </code>
+    </pre>
+    <div class="meta">
+        Hacked by <a href="/user/{{this.username}}">{{this.username}}</a> on {{formatDate this.createdAt "long"}}
+    </div>
+</div>
 {{/each}}
