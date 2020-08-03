@@ -69,6 +69,14 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
+  if (req.session.confirm) {
+    res.locals.confirm = req.session.confirm
+    delete req.session.confirm
+  }
+  next()
+})
+
+app.use((req, res, next) => {
   if (req.session.data) {
     console.log(req.session.id)
     // console.log(req.session)

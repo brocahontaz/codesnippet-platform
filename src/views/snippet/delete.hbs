@@ -1,0 +1,16 @@
+<div class="main snippetPreview">
+    <div class="header">
+        <div class="name">
+            <a href="/snippet/{{snippet.id}}" class="snippetLink">{{snippet.name}}</a>
+        </div>
+    </div>
+<pre><code>{{snippet.snippet}}</code></pre>
+    <div class="meta">
+        <div class="snippetTags preview">
+            {{#each snippet.tags}}
+                <a href="/tag/{{this}}" class="tag">{{this}}</a>
+            {{/each}}
+        </div>
+        Hacked by <a href="/user/{{snippet.username}}" class="authorLink">{{snippet.username}}</a> on {{formatDate snippet.createdAt "long"}}
+    </div>
+</div>

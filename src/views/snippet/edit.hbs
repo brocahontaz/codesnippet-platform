@@ -1,0 +1,9 @@
+<div class="main newSnippet">
+    <form method="post" action="/snippet/{{snippet.id}}/edit">
+        <input type="hidden" name="username" id="username" value="{{user}}">
+        <input type="text" name="name" id="name" placeholder="Snippet name.." value="{{snippet.name}}">
+        <textarea name="snippet" id="snippet" placeholder="Snippet..">{{snippet.snippet}}</textarea>
+        <input type="text" name="tags" id="tags" placeholder="Tags - separete with , sign" value="{{snippet.tags}}">
+        <input type="submit" value="Update snippet">
+    </form>
+</div>

@@ -11,7 +11,8 @@ const SnippetSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    minLength: [1, 'Snippet name cannot be empty!']
   },
   snippet: {
     type: String,
@@ -42,6 +43,16 @@ SnippetSchema.statics.getAll = async function () {
 
 SnippetSchema.statics.getAllByTag = async function (tag) {
   return await this.find({ tags: tag }, null).sort({ createdAt: 'descending' })
+}
+
+SnippetSchema.statics.updateSnippet = async function (id, data) {
+  return await this.findByIdAndUpdate({ _id: mongoose.Types.ObjectId(id) }, data, {
+    new: true
+  })
+}
+
+SnippetSchema.statics.deleteSnippet = async function (id) {
+  return await this.findByIdAndDelete({ _id: mongoose.Types.ObjectId(id) })
 }
 
 const Snippet = mongoose.model('Snippet', SnippetSchema)

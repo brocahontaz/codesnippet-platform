@@ -6,7 +6,7 @@ const Snippet = require('../models/snippet')
 const userController = {}
 
 userController.index = (req, res) => {
-  res.render('user/index')
+  res.render('..')
 }
 
 userController.signin = (req, res) => {
@@ -80,18 +80,23 @@ userController.logout = (req, res) => {
   })
 }
 
-userController.showUser = async (req, res) => {
+userController.showUser = async (req, res, next) => {
   // console.log(req.params)
-  const snippets = await Snippet.getAllByName(req.params.user)
+  try {
+    const snippets = await Snippet.getAllByName(req.params.user)
 
-  console.log(snippets)
-  const viewData = {
-    user: req.params.user,
-    email: req.params.email,
-    snippets: snippets
+    console.log(snippets)
+    const viewData = {
+      user: req.params.user,
+      email: req.params.email,
+      snippets: snippets
+    }
+
+    res.render('user/index', viewData)
+  } catch (err) {
+    err.statusCode = 500
+    return next(err)
   }
-
-  res.render('user/index', viewData)
 }
 
 module.exports = userController

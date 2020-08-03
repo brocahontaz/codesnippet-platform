@@ -1,0 +1,9 @@
+{{#if confirm }}
+<div class="confirm type-{{confirm.type}}">
+    {{confirm.text}}
+    <form method="post" action="/snippet/{{snippet.id}}/delete" class="confirmForm">
+        <button id="deleteSnippetConfirm" class="snippetMenuButton delete">Confirm Delete</button>
+    </form>
+    <a href="/snippet/{{snippet.id}}"><button id="cancel" class="snippetMenuButton edit">Cancel</button></a>
+</div>
+{{/if}}
