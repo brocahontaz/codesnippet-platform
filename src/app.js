@@ -138,11 +138,21 @@ app.use('/tag', require('./routes/tagRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
+  // res.status(404).sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
+  const err = new Error()
+  err.statusCode = 404
+  next(err)
 })
 
 // Handle errors
 app.use((err, req, res, next) => {
+  if (err.statusCode === 403) {
+    err.message = 'Resource forbidden!'
+  } else if (err.statusCode === 404) {
+    err.message = 'Resource not found!'
+  } else if (err.statusCode === 500) {
+    err.message = 'Internal server error!'
+  }
   /*
   res.status(err.status || 500)
   res.send('Error!!!!! ' + err.message || 'Internal server error')
