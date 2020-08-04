@@ -52,9 +52,9 @@ userController.registerPost = async (req, res) => {
   if (req.body.password === req.body.password2) {
     try {
       const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
+        username: req.body.username.trim(),
+        email: req.body.email.trim(),
+        password: req.body.password.trim()
       })
 
       await user.save()
@@ -87,7 +87,7 @@ userController.showUser = async (req, res, next) => {
 
     console.log(snippets)
     const viewData = {
-      user: req.params.user,
+      username: req.params.user,
       email: req.params.email,
       snippets: snippets
     }
