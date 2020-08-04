@@ -128,6 +128,7 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/user', express.static(path.join(__dirname, 'public')))
 app.use('/snippet', express.static(path.join(__dirname, 'public')))
 app.use('/tag', express.static(path.join(__dirname, 'public')))
+app.use('/errors', express.static(path.join(__dirname, 'public')))
 
 // Set up routes
 app.use('/', require('./routes/homeRouter'))
@@ -137,14 +138,17 @@ app.use('/tag', require('./routes/tagRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
-  res.status(404)
-  res.sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
+  res.status(404).sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
 })
 
 // Handle errors
 app.use((err, req, res, next) => {
+  /*
   res.status(err.status || 500)
-  res.send(err.message || 'Internal server error')
+  res.send('Error!!!!! ' + err.message || 'Internal server error')
+  res.render('error') */
+  console.log('ERROR', err)
+  res.status(err.statusCode || 500).render('errors/error', { err })
 })
 
 // Test
