@@ -22,7 +22,7 @@ snippetController.createNew = async (req, res) => {
       username: req.session.user,
       name: req.body.name.trim(),
       snippet: req.body.snippet,
-      tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase() })
+      tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase().trim() }).filter((tag) => { return tag.length > 0 && tag !== '' })
     })
 
     const snip = await snippet.save()
@@ -76,7 +76,7 @@ snippetController.editSnippetPost = async (req, res) => {
       const update = {
         name: req.body.name.trim(),
         snippet: req.body.snippet,
-        tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase() })
+        tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase().trim() }).filter((tag) => { return tag.length > 0 && tag !== '' })
       }
       const snippet = await Snippet.updateSnippet(req.params.snippet, update)
       /* const viewData = {

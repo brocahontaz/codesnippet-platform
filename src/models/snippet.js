@@ -20,8 +20,9 @@ const SnippetSchema = new mongoose.Schema({
     minlength: [1, 'Snippet cannot be empty!']
   },
   tags: {
-    type: Array,
-    required: false
+    type: [String],
+    required: false,
+    default: undefined
   }
 }, {
   timestamps: true

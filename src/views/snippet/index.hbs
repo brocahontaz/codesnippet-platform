@@ -14,9 +14,13 @@
         {{/ifEquals}}
     </div>
     <div class="snippetTags">
-        {{#each snippet.tags}}
-            <a href="/tag/{{this}}" class="tag">{{this}}</a>
-        {{/each}}
+        {{#if snippet.tags}}
+            {{#each snippet.tags}}
+                <a href="/tag/{{this}}" class="tag">{{this}}</a>
+            {{/each}}
+        {{else}}
+            No tags..
+        {{/if}}
     </div>
 <pre><code>{{snippet.snippet ~}}</code></pre>
     <div class="snippetMetaFooter">
