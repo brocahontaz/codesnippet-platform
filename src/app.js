@@ -8,7 +8,6 @@
 
 require('dotenv').config()
 
-// const createError = require('http-errors')
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
@@ -18,6 +17,7 @@ const moment = require('moment')
 
 const mongoose = require('./configs/mongoose')
 
+// Date formats
 const DateFormats = {
   short: 'MMM Do YY',
   long: 'MMMM Do YYYY, HH:mm:ss'
@@ -25,10 +25,12 @@ const DateFormats = {
 
 const app = express()
 
+// Register ifEquals helper for hbs
 hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 === arg2) ? options.fn(this) : options.inverse(this)
 })
 
+// Register formatDate helper for hbs
 hbs.registerHelper('formatDate', function (datetime, format) {
   if (moment) {
     format = DateFormats[format] || format
@@ -62,12 +64,12 @@ app.use(session(sessionOptions))
 app.use((req, res, next) => {
   if (req.session.flash) {
     res.locals.flash = req.session.flash
-    // console.log(req.session.user)
     delete req.session.flash
   }
   next()
 })
 
+// Middleware for confirm dialog
 app.use((req, res, next) => {
   if (req.session.confirm) {
     res.locals.confirm = req.session.confirm
@@ -76,11 +78,9 @@ app.use((req, res, next) => {
   next()
 })
 
+// Middleware for persisting data
 app.use((req, res, next) => {
   if (req.session.data) {
-    console.log(req.session.id)
-    // console.log(req.session)
-    // console.log(req.session.data)
     res.locals.data = req.session.data
     delete req.session.data
   }
@@ -90,15 +90,11 @@ app.use((req, res, next) => {
   next()
 })
 
+// Middleware for user logged in
 app.use((req, res, next) => {
-  // console.log('rrrr', req)
-  // console.log(req.session)
-  // console.log('inloggad')
   app.locals.email = req.session.email
   app.locals.user = req.session.user
   app.locals.loggedIn = req.session.loggedIn
-  // console.log('logged',req.session.loggedIn)
-  // console.log('user', req.session.user)
   next()
 })
 
@@ -138,7 +134,6 @@ app.use('/tag', require('./routes/tagRouter'))
 
 // Catch file not found
 app.use('*', (req, res, next) => {
-  // res.status(404).sendFile(path.join(__dirname, 'views', 'errors', '404.html'))
   const err = new Error()
   err.statusCode = 404
   next(err)
@@ -153,11 +148,6 @@ app.use((err, req, res, next) => {
   } else if (err.statusCode === 500) {
     err.message = 'Internal server error!'
   }
-  /*
-  res.status(err.status || 500)
-  res.send('Error!!!!! ' + err.message || 'Internal server error')
-  res.render('error') */
-  console.log('ERROR', err)
   res.status(err.statusCode || 500).render('errors/error', { err })
 })
 
