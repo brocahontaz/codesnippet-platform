@@ -1,13 +1,32 @@
+/**
+ * Snippet controller
+ *
+ * @author Johan Andersson
+ * @version 1.0
+ */
+
 'use strict'
 
 const Snippet = require('../models/snippet')
 
 const snippetController = {}
 
+/**
+ * Snippet index, redirect back.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the express response object
+ */
 snippetController.index = (req, res) => {
   res.redirect('..')
 }
 
+/**
+ * Render the form for creating new snippet, if session has user.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 snippetController.new = (req, res) => {
   if (req.session.user) {
     res.render('snippet/new')
@@ -16,6 +35,12 @@ snippetController.new = (req, res) => {
   }
 }
 
+/**
+ * Create new code snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 snippetController.createNew = async (req, res) => {
   try {
     const snippet = new Snippet({
@@ -26,7 +51,7 @@ snippetController.createNew = async (req, res) => {
     })
 
     const snip = await snippet.save()
-    console.log(snip.id)
+
     req.session.flash = { type: 'success', text: 'New snippet created! :D' }
     res.redirect('/snippet/' + snip.id)
   } catch (err) {
@@ -36,16 +61,22 @@ snippetController.createNew = async (req, res) => {
   }
 }
 
+/**
+ * Show a code snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ * @returns {object} forward error
+ */
 snippetController.showSnippet = async (req, res, next) => {
   try {
-    console.log(req.params.snippet)
     const snippet = await Snippet.getSnippet(req.params.snippet)
     if (!snippet) {
       const err = new Error('Not found :(')
       err.statusCode = 404
       next(err)
     } else {
-      console.log('SNIP', snippet)
       const viewData = {
         snippet: snippet
       }
@@ -57,6 +88,13 @@ snippetController.showSnippet = async (req, res, next) => {
   }
 }
 
+/**
+ * Show form for editing a snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ */
 snippetController.editSnippet = async (req, res, next) => {
   try {
     const snippet = await Snippet.getSnippet(req.params.snippet)
@@ -70,7 +108,14 @@ snippetController.editSnippet = async (req, res, next) => {
   }
 }
 
+/**
+ * Update a snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 snippetController.editSnippetPost = async (req, res) => {
+  // check if name or snippet is empty
   if (req.body.name && req.body.snippet && req.body.name !== '' && req.body.snippet !== '') {
     try {
       const update = {
@@ -79,39 +124,38 @@ snippetController.editSnippetPost = async (req, res) => {
         tags: req.body.tags.split(',').map((tag) => { return tag.toLowerCase().trim() }).filter((tag) => { return tag.length > 0 && tag !== '' })
       }
       const snippet = await Snippet.updateSnippet(req.params.snippet, update)
-      /* const viewData = {
-      snippet: snippet
-    } */
+
       req.session.flash = { type: 'success', text: 'Snippet edited!' }
       res.redirect('/snippet/' + snippet.id)
-    // res.render('snippet/index', viewData)
     } catch (err) {
       req.session.flash = { type: 'danger', text: err.message }
-      // req.session.data = { snippet: req.body.snippet }
       res.redirect('/snippet/' + req.params.snippet + '/edit')
     }
   } else {
     req.session.flash = { type: 'danger', text: 'Name or snippet cannot be empty!' }
-    // req.session.data = { snippet: req.body.snippet }
     res.redirect('/snippet/' + req.params.snippet + '/edit')
   }
 }
 
+/**
+ * Delete a snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 snippetController.deleteSnippet = async (req, res) => {
   req.session.confirm = { type: 'delete', text: 'Do you wanna delete snippet?!' }
   res.redirect('/snippet/' + req.params.snippet)
-  /*
-  try {
-    const snippet = await Snippet.getSnippet(req.params.snippet)
-    const viewData = {
-      snippet: snippet
-    }
-    res.render('snippet/delete', viewData)
-  } catch (err) {
-
-  } */
 }
 
+/**
+ * Confirm deleting snippet.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ * @returns {object} forward error
+ */
 snippetController.deleteSnippetConfirm = async (req, res, next) => {
   try {
     const snippet = await Snippet.deleteSnippet(req.params.snippet)
@@ -123,6 +167,14 @@ snippetController.deleteSnippetConfirm = async (req, res, next) => {
   }
 }
 
+/**
+ * Authorization of users for resources.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ * @returns {object} forward error
+ */
 snippetController.authorizeUser = async (req, res, next) => {
   const snippet = await Snippet.getSnippet(req.params.snippet)
   if (!req.session.user || req.session.user !== snippet.username) {
