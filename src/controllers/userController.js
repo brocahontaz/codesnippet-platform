@@ -1,3 +1,10 @@
+/**
+ * User controller
+ *
+ * @author Johan Andersson
+ * @version 1.0
+ */
+
 'use strict'
 
 const User = require('../models/user')
@@ -5,10 +12,23 @@ const Snippet = require('../models/snippet')
 
 const userController = {}
 
+/**
+ * User index, redirect back.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.index = (req, res) => {
   res.render('..')
 }
 
+/**
+ * Show sign in page.
+ * Redirect back if session already in place.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.signin = (req, res) => {
   if (req.session.user) {
     res.redirect('..')
@@ -17,21 +37,21 @@ userController.signin = (req, res) => {
   }
 }
 
+/**
+ * Sign in user.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.signinPost = async (req, res) => {
-  // console.log('test2')
-  // console.log(req.body.email)
-  // console.log(req.body.password)
   try {
     const user = await User.authenticate(req.body.email, req.body.password)
-    // console.log('auth', user)
     req.session.regenerate(() => {
       req.session.user = user.username
       req.session.email = user.email
       req.session.loggedIn = true
       req.session.flash = { type: 'success', text: 'Welcome ' + user.username + '!' }
       res.redirect('/')
-      console.log(req.session)
-      console.log('REGEN', req.session.user)
     })
   } catch (err) {
     req.session.data = { form: { email: req.body.email } }
@@ -40,6 +60,13 @@ userController.signinPost = async (req, res) => {
   }
 }
 
+/**
+ * Show register page.
+ * Redirect back if session already in place.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.register = (req, res) => {
   if (req.session.user) {
     res.redirect('..')
@@ -48,7 +75,14 @@ userController.register = (req, res) => {
   }
 }
 
+/**
+ * Register new user.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.registerPost = async (req, res) => {
+  // Check if passwords are the same
   if (req.body.password === req.body.password2) {
     try {
       const user = new User({
@@ -70,22 +104,34 @@ userController.registerPost = async (req, res) => {
     req.session.data = { form: { username: req.body.username, email: req.body.email } }
     req.session.flash = { type: 'danger', text: 'Passwords does not match!' }
     res.redirect('./register')
-    // res.render('user/register')
   }
 }
 
+/**
+ * Signout user, destroying the session.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ */
 userController.logout = (req, res) => {
   req.session.destroy(() => {
     res.redirect('..')
   })
 }
 
+/**
+ * Show a user page, with all its created snippets.
+ *
+ * @param {object} req the Express request object
+ * @param {object} res the Express response object
+ * @param {object} next the Express forward object
+ * @returns {object} forward error
+ */
 userController.showUser = async (req, res, next) => {
   // console.log(req.params)
   try {
     const snippets = await Snippet.getAllByName(req.params.user)
 
-    console.log(snippets)
     const viewData = {
       username: req.params.user,
       email: req.params.email,
