@@ -128,7 +128,6 @@ userController.logout = (req, res) => {
  * @returns {object} forward error
  */
 userController.showUser = async (req, res, next) => {
-  // console.log(req.params)
   try {
     const snippets = await Snippet.getAllByName(req.params.user)
 

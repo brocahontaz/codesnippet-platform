@@ -1,3 +1,10 @@
+/**
+ * Mongoose schema/model for the users.
+ *
+ * @author Johan Andersson
+ * @version 1.0
+ */
+
 'use strict'
 
 const mongoose = require('mongoose')
@@ -5,7 +12,7 @@ const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const saltRounds = 10
 
-// Create the schema
+// User Mongoose schema
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -32,6 +39,8 @@ const UserSchema = new mongoose.Schema({
   versionKey: false
 })
 
+// Salt and hash password before saving in db, when creating new user
+// Using bcrypt
 UserSchema.pre('save', async function (next) {
   const user = this
 
@@ -49,11 +58,15 @@ UserSchema.pre('save', async function (next) {
   }
 })
 
+/**
+ * Authenticate user when logging in.
+ *
+ * @param {string} email the user email
+ * @param {string} password the password
+ * @returns {object} the user object
+ */
 UserSchema.statics.authenticate = async function (email, password) {
-  // console.log(email, password)
-
   const user = await this.findOne({ email: email })
-  // console.log(user)
   if (!user || !await bcrypt.compare(password, user.password)) {
     throw new Error('Invalid credentials, please try again.')
   }
