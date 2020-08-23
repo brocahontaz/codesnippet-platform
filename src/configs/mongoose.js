@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
 /**
  * Establish a connection to the MongoDB.
  *
- * @returns {promise} connection promise
+ * @returns {Promise} connection promise
  */
 module.exports.connect = async () => {
   mongoose.connection.on('connected', () => console.log('Mongoose connection established.'))
