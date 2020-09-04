@@ -1,0 +1,1 @@
+Code snippet platform made with Express.js, MongoDB, and some other goodies.

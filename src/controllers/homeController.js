@@ -20,7 +20,7 @@ const homeController = {}
 homeController.index = async (req, res) => {
   const snippets = await Snippet.getAll()
 
-  console.log(snippets)
+  //console.log(snippets)
   const viewData = {
     snippets: snippets
   }
